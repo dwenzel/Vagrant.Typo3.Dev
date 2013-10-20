@@ -1,14 +1,17 @@
 # What is it?
-This is a development environtment for the TYPO3 Content Management System.
+This is a development environment for the TYPO3 Content Management System.
 It is based on the repository https://github.com/ipf/typo3-vagrant and aims to
 deliver a more versatile development version.
 
-You can choose which version of TYPO3 you want to work with and whether a
-introduction or government package should be setup or just an empty TYPO3
-instance.
+We will add configuration for choosing the version of TYPO3 to work with. Additionally
+there will be an option to choose whether an introduction or government package should be setup 
+or just an empty TYPO3 instance (the so called blank package).
 
-It also includes the mailcatcher package which enables sending and recieving
+We will also include the mailcatcher package which enables sending and receiving
 E-Mails whithout setting up a mail delivery agent.
+
+Pleae have a look at the milestones. They indicate the current development
+status of the above features.
 
 # Installation
 
