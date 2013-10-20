@@ -8,7 +8,7 @@ Vagrant::Config.run do |config|
 
   # Every Vagrant virtual environment requires a box to build off of.
   config.vm.box = "ipf-precise"
-  config.vm.customize ["modifyvm", :id, "--memory", "768"]
+  config.vm.customize ["modifyvm", :id, "--memory", "448"]
 
   # The url from where the 'config.vm.box' box will be fetched if it
   # doesn't already exist on the user's system.
@@ -40,15 +40,24 @@ Vagrant::Config.run do |config|
    config.vm.provision :chef_solo do |chef|
     chef.cookbooks_path = "./cookbooks"
     #chef.log_level = :debug
+    chef.add_recipe("typo3")
+    chef.add_recipe("mysql::server")
     chef.json = {
       "mysql" => {
         "server_root_password" => "typo3",
 	"server_debian_password" => "typo3",
-	"server_repl_password" => "typo3"
+	"server_repl_password" => "typo3",
+	"tunable" => {
+	  "max_connections" => "5",
+	  "key_buffer" => "64M",
+	  "query_cache_size" => "8M",
+	  "table_cache" => "64",
+	  "table_open_cache" => "64",
+	  "max_heap_table_size" => "16M",
+	  "tmp_table_size" => "16M",
+	}
       }
     }
-    chef.add_recipe("typo3")
-    chef.add_recipe("mysql::server")
    end
 
 end
