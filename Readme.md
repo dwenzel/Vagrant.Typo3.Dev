@@ -1,8 +1,20 @@
+# What is it?
+This is a development environtment for the TYPO3 Content Management System.
+It is based on the repository https://github.com/ipf/typo3-vagrant and aims to
+deliver a more versatile development version.
+
+You can choose which version of TYPO3 you want to work with and whether a
+introduction or government package should be setup or just an empty TYPO3
+instance.
+
+It also includes the mailcatcher package which enables sending and recieving
+E-Mails whithout setting up a mail delivery agent.
+
 # Installation
 
 ## Clone this repository
 
- > git clone git://github.com/ipf/typo3-vagrant.git
+ > git clone git@github.com:dwenzel/Vagrant.Typo3.Dev.git
 
 ## Get all submodules
 
