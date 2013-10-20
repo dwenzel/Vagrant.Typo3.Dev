@@ -9,56 +9,65 @@ end
 
 execute "pear upgrade-all"
 
-directory "/var/www/html" do
-	action :create
-	owner "www-data"
-	group "www-data"
-end
+#directory "/var/www/html" do
+#	action :create
+#	owner "www-data"
+#	group "www-data"
+#end
 
-directory "/var/www/typo3" do
-	action :create
-	owner "www-data"
-	group "www-data"
-end
+#directory "/var/www/typo3" do
+#	action :create
+#	owner "www-data"
+#	group "www-data"
+#end
 
 # Execute a block
-execute "wget get.typo3.org/current -O /var/www/typo3/latest.tgz" do
+execute "cd /tmp && wget get.typo3.org/blank -O /tmp/blank.tgz" do
   not_if do
-    File.exists?("/var/www/typo3/latest.tgz")
+    File.exists?("/tmp/blank.tgz")
   end
 end
 
-execute "cd /var/www/typo3 && sudo tar xzf latest.tgz" do
+execute "sudo tar xzf /tmp/blank.tgz -C /var/www/ --strip-components=1" do
   only_if do
-    File.exists?("/var/www/typo3/latest.tgz")
+    File.exists?("/tmp/blank.tgz")
   end
 end
  
-execute "wget http://prdownloads.sourceforge.net/typo3/introductionpackage-6.0.4.tar.gz -O /var/www/html/intro.tgz" do
-  not_if do
-    File.exists?("/var/www/html/intro.tgz")
-  end
-end
+#execute "wget http://prdownloads.sourceforge.net/typo3/introductionpackage-6.0.4.tar.gz -O /var/www/html/intro.tgz" do
+#  not_if do
+#    File.exists?("/var/www/html/intro.tgz")
+#  end
+#end
 
-execute "cd /var/www/html && sudo tar xzf intro.tgz --strip-components=1" do
-  only_if do
-    File.exists?("/var/www/html/intro.tgz")
-  end
-end
+#execute "cd /var/www/html && sudo tar xzf intro.tgz --strip-components=1" do
+#  only_if do
+#    File.exists?("/var/www/html/intro.tgz")
+#  end
+#end
 
-directory "/var/www/html" do
+directory "/var/www" do
   owner "www-data"
   group "www-data"
   mode "0777"
 end
 
+#directory "/var/www/html/uploads" do
+#  not_if do 
+#    File.exists?("/var/www/html/uploads") && File.directory?("/var/www/html/uploads")
+#  end
+#  action :create
+#  owner "www-data"
+#  group "www-data"
+#end
+
 directories = ["uploads", "typo3conf", "typo3temp", "fileadmin"]
 
 directories.each do |d| 
- execute "chmod -R 777 /var/www/html/" + d
+ execute "chmod -R 777 /var/www/" + d
 end
 
-file "/var/www/typo3/latest.tgz" do
+file "/tmp/blank.tgz" do
   action :delete
 end
 
