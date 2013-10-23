@@ -76,7 +76,10 @@ cookbook_file "/etc/apache2/sites-enabled/000-default" do
   mode "0644"
 end
 
-#execute "mysql -uroot -ptypo3 -e 'CREATE DATABASE typo3_dev;'"
+# create empty database
+execute "mysql -uroot -ptypo3 -e 'CREATE DATABASE IF NOT EXISTS typo3;'"
+
+execute "touch /var/www/typo3conf/ENABLE_INSTALL_TOOL"
 
 execute "a2enmod rewrite"
 
