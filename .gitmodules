@@ -4,3 +4,6 @@
 [submodule "cookbooks/openssl"]
 	path = cookbooks/openssl
 	url = git://github.com/opscode-cookbooks/openssl.git
+[submodule "cookbooks/mailcatcher"]
+	path = cookbooks/mailcatcher
+	url = git@github.com:andruby/mailcatcher.git
