@@ -9,22 +9,10 @@ end
 
 execute "pear upgrade-all"
 
-#directory "/var/www/html" do
-#	action :create
-#	owner "www-data"
-#	group "www-data"
-#end
-
-#directory "/var/www/typo3" do
-#	action :create
-#	owner "www-data"
-#	group "www-data"
-#end
-
-# Execute a block
+# get blank package
 execute "cd /tmp && wget get.typo3.org/blank -O /tmp/blank.tgz" do
   not_if do
-    File.exists?("/tmp/blank.tgz")
+    File.exists?("/var/www/typo3")
   end
 end
 
@@ -68,11 +56,21 @@ directories.each do |d|
 end
 
 file "/tmp/blank.tgz" do
+  only_if do
+    File.exists?("/tmp/blank.tgz")
+  end
   action :delete
 end
 
+# add apache default site
 cookbook_file "/etc/apache2/sites-enabled/000-default" do
-  source "000-default" # this is the value that would be inferred from the path parameter
+  source "000-default" 
+  mode "0644"
+end
+
+# replace php.ini
+cookbook_file "/etc/php5/apache2/php.ini" do
+  source "php.ini"
   mode "0644"
 end
 
@@ -86,3 +84,14 @@ execute "a2enmod rewrite"
 service "apache2" do
 	action :restart
 end
+
+# start mailcatcher
+execute "mailcatcher --ip=0.0.0.0"
+
+# the following does not work since the mailcatcher recipe does not provide a
+# start / stop skript under init.d 
+# It seems mailcatcher starts only after a halt of the virtual machine
+#service "mailcatcher" do
+#	action :restart
+#end
+
