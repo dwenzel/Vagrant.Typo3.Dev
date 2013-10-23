@@ -33,7 +33,7 @@ Vagrant::Config.run do |config|
   config.vm.forward_port 80, 8333
   # forward port for mailcatcher. You may comment the following line out if not
   # needed
-  config.vm.forward_port 180, 1080
+  config.vm.forward_port 1080, 1080
 
   # Share an additional folder to the guest VM. The first argument is
   # an identifier, the second is the path on the guest to mount the
