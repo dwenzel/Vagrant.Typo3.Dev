@@ -31,6 +31,9 @@ Vagrant::Config.run do |config|
   # Forward a port from the guest to the host, which allows for outside
   # computers to access the VM, whereas host only networking does not.
   config.vm.forward_port 80, 8333
+  # forward port for mailcatcher. You may comment the following line out if not
+  # needed
+  config.vm.forward_port 180, 1080
 
   # Share an additional folder to the guest VM. The first argument is
   # an identifier, the second is the path on the guest to mount the
@@ -41,7 +44,9 @@ Vagrant::Config.run do |config|
     chef.cookbooks_path = "./cookbooks"
     #chef.log_level = :debug
     chef.add_recipe("typo3")
+    chef.add_recipe("build-essential")
     chef.add_recipe("mysql::server")
+    chef.add_recipe("mailcatcher")
     chef.json = {
       "mysql" => {
         "server_root_password" => "typo3",
